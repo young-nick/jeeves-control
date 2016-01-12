@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block body %}
+<div data-role="page" data-title="Control" id="control" data-add-back-btn="true">
+	<div data-role="header" data-theme="b">
+		<h1>Pi Remote Control</h1>
+		<h4>{{d.id}}</h4>
+	</div>
+
+    <div data-role="content">
+        <ul id="d-list" data-role="listview" data-inset="true" data-filter="true" data-dividertheme="a">
+            <li data-role="list-divider">Keys</li>
+            {% for key in d.keydefs.keys()|sort %}
+                <li id="service{{ d.id }}"> <a href="#" onclick="javascript:clickedOp('{{ d.id }}', '{{key}}');return false;">{{ key }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>        
+{% endblock %}
+
+
