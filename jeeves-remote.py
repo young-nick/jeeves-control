@@ -6,7 +6,7 @@ from flask import Flask
 from flask import render_template
 from flask import request, redirect, url_for, jsonify
 from subprocess import call
-
+from services import screencontrol
 
 BASE_URL = ''
 
@@ -14,10 +14,7 @@ app = Flask(__name__)
 
 
 app.config['services'] = {
-    "ScreenControl": {
-    "On": ['sudo', 'tvservice', '-p'],
-    "Off": ['sudo', 'tvservice', '-o']
-    }
+    "ScreenControl": screencontrol.ScreenControl()
 }
 
 
@@ -38,9 +35,8 @@ def index(service=None):
 
 @app.route("/service/<service_id>")
 def service(service_id=None):
-    print "called %s" % service_id
     d = {'id':service_id,
-         'keydefs': app.config['services'][service_id]
+         'keydefs': dict(app.config['services'][service_id])
          }
     if 'format' in request.args:
         print request.args['format']
@@ -52,7 +48,8 @@ def service(service_id=None):
 @app.route("/service/<service_id>/<op>")
 def clicked(service_id=None, op=None):
     # Call the associated command
-    if call(app.config['services'][service_id][op]):
+
+    if not dict(app.config['services'][service_id])[op]():
         return ""
     else:
         return ""
