@@ -5,20 +5,24 @@ class ScreenControl(ServiceBase):
 
     def __init__(self):
         self.commands = {
-            "On": ['sudo', 'tvservice', '-p'],
-            "Off": ['sudo', 'tvservice', '-o'],
-            "Check": ['sudo', 'tvservice', '-s']
+            "On": ['sudo', 'vcgencmd', 'display_power', '1'],
+            "Off": ['sudo', 'vcgencmd', 'display_power', '0'],
         }
+        self.state = 'On'
 
     def on(self):
+	self.state = 'On'
         return call(self.commands['On'])
 
     def off(self):
+	self.state = 'Off'
         return call(self.commands['Off'])
 
     def toggle(self):
 
-        if 'off' in check_output(self.commands['Check']):
+        if self.state == 'Off':
+            self.state = 'On'
             return call(self.commands['On'])
         else:
+            self.state = 'Off'
             return call(self.commands['Off'])
