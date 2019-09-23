@@ -1,0 +1,10 @@
+[Unit]
+Description=Jeeves remote display control
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /src/jeeves-remote/jeeves-remote.py
+
+[Install]
+WantedBy=multi-user.target
