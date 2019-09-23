@@ -8,7 +8,6 @@ cffi==0.8.6
 chardet==2.3.0
 click==6.7
 colorama==0.3.2
-cryptography==0.6.1
 html5lib==0.999
 itsdangerous==0.24
 ndg-httpsclient==0.3.2
