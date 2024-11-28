@@ -1,5 +1,14 @@
+import inspect
 from subprocess import call, check_output
-from servicebase import ServiceBase
+
+class ServiceBase(object):
+
+    # Override iter definition to return all non-private methods.
+    def __iter__(self):
+        for method in inspect.getmembers(self, predicate=inspect.ismethod):
+            if not method[0].startswith('_'):
+                yield method
+
 
 class ScreenControl(ServiceBase):
 
@@ -11,11 +20,11 @@ class ScreenControl(ServiceBase):
         self.state = 'On'
 
     def on(self):
-	self.state = 'On'
+        self.state = 'On'
         return call(self.commands['On'])
 
     def off(self):
-	self.state = 'Off'
+        self.state = 'Off'
         return call(self.commands['Off'])
 
     def toggle(self):

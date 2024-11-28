@@ -39,7 +39,7 @@ def service(service_id=None):
          'keydefs': dict(app.config['services'][service_id])
          }
     if 'format' in request.args:
-        print request.args['format']
+        print(request.args['format'])
         return jsonify(d)
     else:
         return render_template('control.html', d=d)
